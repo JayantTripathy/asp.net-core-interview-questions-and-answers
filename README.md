@@ -2,6 +2,20 @@
 
 Here's a set of essential ASP.NET Core interview questions across .NET Core Basics, ASP.NET Core MVC, and Authentication & Authorization that can serve as an effective guide for preparing for interviews, revising key concepts, and strengthening your technical skills.
 
+- [Tab 1](#tab-1)
+- [Tab 2](#tab-2)
+- [Tab 3](#tab-3)
+
+## Tab 1
+Content for Tab 1...
+
+## Tab 2
+Content for Tab 2...
+
+## Tab 3
+Content for Tab 3...
+
+
 ### Table of Contents
 
 | No. | Questions |
