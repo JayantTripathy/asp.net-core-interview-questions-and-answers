@@ -9,6 +9,7 @@ Here's a set of essential ASP.NET Core interview questions across .NET Core Basi
 |---- | ---------
 |1 | [What is .NET Core?](#what-is-net-core)|
 |2 | [What are the differences between .NET Core and .NET Framework?](#what-are-the-difference-between-netcore-and-net-framework)|
+|3 | [What is ASP.NET Core?](#what-is-aspnet-core)|
 
 1. ### What is .NET Core?
 
@@ -36,5 +37,19 @@ The following characteristics best define .NET Core:
     | Supports microservices development.  | Does not support microservices development. |
     | Lightweight for Command Line Interface(CLI).  | Heavy for Command Line Interface. |
     
+
+  **[⬆ Back to Top](#table-of-contents)**
+
+
+3. ### What is ASP.NET Core?
+
+ASP.NET Core is an open-source, cross-platform and high-performance platform that allows you to build modern, Internet-connected and cloud-enabled applications. It is much faster, configurable, modular, scalable, extensible, and has cross-platform support. It can work with both .NET Core and .Net frameworks via the .NET standard framework. It is best suited for developing cloud-based web applications, mobile applications, and IoT applications.
+
+With ASP.NET Core you can
+
+Build web applications, IoT (Internet of things) apps, services and mobile Backends.
+Run on .Net Core.
+You can do your development on Linux, Windows and MacOS.
+Deploy your code to cloud or on-premises.
 
   **[⬆ Back to Top](#table-of-contents)**
