@@ -23,6 +23,10 @@ Here's a set of essential ASP.NET Core interview questions across .NET Core Basi
 |14 | [Where to keep configuration information in ASP.NET Core.](#where-to-keep-configuration-information-in-aspnet-core)|
 |15 | [What is the role of IHostingEnvironment interface in ASP.NET Core?](#what-is-the-role-of-ihostingenvironment-interface-in-aspnet-core)|
 |16 | [What is middleware?](#what-is-middleware)|
+|17 | [Describe the URL Rewriting Middleware in ASP.NET Core](#describe-the-url-rewriting-middleware-in-aspnet-core)|
+|18 | [What is Request delegate?](#what-is-request-delegate)|
+|19 | [What is the difference between IApplicationBuilder.Use() and IApplicationBuilder.Run()?](#what-is-the-difference-between-iapplicationbuilder-use-and-iapplicationbuilder-run)|
+|20 | [What is the use of the “Map” extension while adding middleware to the ASP.NET Core pipeline?](#what-is-the-use-of-the-map-extension-while-adding-middleware-to-the-aspnet-core-pipeline)|
 
 
 
@@ -266,5 +270,55 @@ app.UseStaticFiles();
 app.UseRouting();
 ```
 
+In ASP.NET Core, middleware components are executed in the order they are added to the pipeline. The order is critical because each middleware component can control the flow of requests and responses
+
+Here’s the common middleware order for a typical ASP.NET Core app:
+
+![ScreenShot](images/middleware-pipeline.svg)
+
+
  **[⬆ Back to Top](#table-of-contents)**
- 
+
+17. ### Describe the URL Rewriting Middleware in ASP.NET Core.
+
+URL rewriting is the act of modifying request URLs based on one or more predefined rules. URL rewriting creates an abstraction between resource locations and their addresses so that the locations and addresses aren’t tightly linked
+
+![ScreenShot](images/url_redirect.png)
+
+URL rewriting is valuable in several scenarios to:
+
+- Move or replace server resources temporarily or permanently and maintain stable locators for those resources.
+- Split request processing across different apps or across areas of one app.
+- Remove, add, or reorganize URL segments on incoming requests.
+- Optimize public URLs for Search Engine Optimization (SEO).
+- Permit the use of friendly public URLs to help visitors predict the content returned by requesting a resource.
+- Redirect insecure requests to secure endpoints.
+- Prevent hotlinking, where an external site uses a hosted static asset on another site by linking the asset into its own content.
+
+ **[⬆ Back to Top](#table-of-contents)**
+
+18. ### What is Request delegate?
+
+Request delegates handle each HTTP request and are used to build request pipeline. It can configured using Run, Map and Use extension methods. An request delegate can be a in-line as an anonymous method (called in-line middleware) or a reusable class. These classes or in-line methods are called middleware components.
+
+ **[⬆ Back to Top](#table-of-contents)**
+
+19. ### What is the difference between IApplicationBuilder.Use() and IApplicationBuilder.Run()?
+
+We can use both the methods in Configure methods of the startup class. Both are used to add middleware delegates to the application request pipeline. The middleware adds using ```IApplicationBuilder.Use``` may call the next middleware in the pipeline whereas the middleware adds using ```IApplicationBuilder```.The run method never calls the subsequent middleware. After IApplicationBuilder.Run method, The system stops adding middleware in the request pipeline.
+
+ **[⬆ Back to Top](#table-of-contents)**
+
+20. ### What is the use of the “Map” extension while adding middleware to the ASP.NET Core pipeline?
+
+It is used for branching the pipeline. It branches the ASP.NET Core pipeline based on request path matching. If the request path starts with the given path, middleware on that branch will execute.
+
+```
+public void Configure(IApplicationBuilder app)
+ {
+ app.Map("/path1", Middleware1);
+ app.Map("/path2", Middleware2);
+ }
+```
+
+
