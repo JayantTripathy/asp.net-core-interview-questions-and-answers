@@ -10,6 +10,7 @@ Here's a set of essential ASP.NET Core interview questions across .NET Core Basi
 |1 | [What is .NET Core?](#what-is-net-core)|
 |2 | [What are the differences between .NET Core and .NET Framework?](#what-are-the-difference-between-netcore-and-net-framework)|
 |3 | [What is ASP.NET Core?](#what-is-aspnet-core)|
+|4 | [What are the features provided by ASP.NET Core?](#what-is-aspnet-core)|
 
 1. ### What is .NET Core?
 
@@ -27,7 +28,9 @@ The following characteristics best define .NET Core:
 
   **[⬆ Back to Top](#table-of-contents)**
 
+
 2. ### What are the differences between .NET Core and .NET Framework?
+   
 
     | .NET Core  | .NET Framework |
     |---- | ---------
@@ -53,3 +56,21 @@ You can do your development on Linux, Windows and MacOS.
 Deploy your code to cloud or on-premises.
 
   **[⬆ Back to Top](#table-of-contents)**
+
+  4. ### What are the features provided by ASP.NET Core?
+
+Following are the core features that are provided by the ASP.NET Core
+
+- Built-in supports for Dependency Injection
+- Built-in supports for the logging framework and it can be extensible
+- Introduced a new, fast and cross-platform web server – Kestrel. So, a web application can run without IIS, Apache, and Nginx.
+- Multiple hosting ways are supported
+- It supports modularity, so the developer needs to include the module required by the application. However, the .NET Core framework is also providing the meta package that includes the libraries
+- Command-line supports to creating, building, and running of the application
+- There is no web.config file. We can store the custom configuration into an appsettings.json file
+- There is no Global.asax file. We can now register and use the services in the startup class
+- It has good support for asynchronous programming
+- Support WebSocket and SignalR
+- Provide protection against CSRF (Cross-Site Request Forgery)
+
+
