@@ -26,7 +26,7 @@ The following characteristics best define .NET Core:
 
   **[⬆ Back to Top](#table-of-contents)**
 
-2. ### What are the differences between.NET Core and.NET Framework?
+2. ### What are the differences between .NET Core and .NET Framework?
 
     | .NET Core  | .NET Framework |
     |---- | ---------
