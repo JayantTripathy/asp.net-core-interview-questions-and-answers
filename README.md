@@ -25,8 +25,11 @@ Here's a set of essential ASP.NET Core interview questions across .NET Core Basi
 |16 | [What is middleware?](#what-is-middleware)|
 |17 | [Describe the URL Rewriting Middleware in ASP.NET Core](#describe-the-url-rewriting-middleware-in-aspnet-core)|
 |18 | [What is Request delegate?](#what-is-request-delegate)|
-|19 | [What is the difference between IApplicationBuilder.Use() and IApplicationBuilder.Run()?](#what-is-the-difference-between-iapplicationbuilder-use-and-iapplicationbuilder-run)|
+|19 | [What is the difference between IApplicationBuilder.Use() and IApplicationBuilder.Run()?](#what-is-the-difference-between-iapplicationbuilderuse-and-iapplicationbuilderrun)|
 |20 | [What is the use of the “Map” extension while adding middleware to the ASP.NET Core pipeline?](#what-is-the-use-of-the-map-extension-while-adding-middleware-to-the-aspnet-core-pipeline)|
+|21 | [How to enable Session in ASP.NET Core?](#how-to-enable-session-in-aspnet-core)|
+|22 | [What is Dependency Injection?](#what-is-dependancy-injection)|
+|23 | [Service Lifetime of Dependency Injection?](#service-lifetime-of-dependancy-injection)|
 
 
 
@@ -320,5 +323,66 @@ public void Configure(IApplicationBuilder app)
  app.Map("/path2", Middleware2);
  }
 ```
+ **[⬆ Back to Top](#table-of-contents)**
 
+21. ### How to enable Session in ASP.NET Core?
 
+The middleware for the session is provided by the package ```Microsoft.AspNetCore.Session```. To use the session in the ASP.NET Core application, we need to add this package to csproj file and add the Session middleware to the ASP.NET Core request pipeline.
+
+```c#
+public class Startup
+ {
+    public void ConfigureServices(IServiceCollection services)
+    {
+    ….
+    ….
+    services.AddSession();
+    services.AddMvc();
+    }
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    {
+    ….
+    ….
+    app.UseSession();
+    ….
+    ….
+    }
+ }
+```
+ **[⬆ Back to Top](#table-of-contents)**
+
+ 22. ### How to enable Session in ASP.NET Core?
+
+Dependency Injection is the design pattern that helps us to create applications which loosely coupled. This means that the object should only have that dependency that is required during the complete task. The main advantage of DI (Dependency Injection) is our application is loosely coupled and has provide greater maintainability, testability and also re-usability. It is loosely coupled because dependencies required by the class are injected from outer world rather than created them self directly win-in code.
+
+![ScreenShot](images/Dependency-Injection-in-ASP.NET-Core.png)
+
+The class will depend on an interface rather than a concrete implementation of dependencies. This makes our code loosely coupled as we can inject any concrete object as far as it implements the required interface.
+
+ASP.NET Core comes with a built-in container (IServiceProvider) that supports constructor injection by default and the framework itself provides some services through dependency injection.
+
+23. ### Service Lifetime of Dependency Injection?
+
+When Services are registered, there is a lifetime for every service. ASP.NET Core provides the following lifetimes.
+
+- **Transient:** Services with transient lifetime are created each time they are requested from service container. So it’s best suited for stateless, light weight services.
+
+```c#
+services.AddTransient<IHelloWorldService, HelloWorldService>();
+```
+
+- **Scoped:** Services with scoped lifetime are created once per connection or client request. When using scoped service in middleware then inject the service via invoke or invokeAsync method. You should not inject the service via constructor injection as it treats the service behavior like Singleton.
+
+```c#
+services.AddScoped<IHelloWorldService, HelloWorldService>();
+```
+
+- **Singleton:** Service with singleton lifetime is created once when first time the service is requested. For subsequent requests same instance is served by service container.
+
+```c#
+services.AddSingleton<IHelloWorldService, HelloWorldService>();
+```
+
+![ScreenShot](images/service-lifetime.jpg)
+
+ **[⬆ Back to Top](#table-of-contents)**
