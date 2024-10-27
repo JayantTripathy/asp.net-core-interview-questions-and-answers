@@ -8,7 +8,7 @@ Here's a set of essential ASP.NET Core interview questions across .NET Core Basi
 | No. | Questions |
 |---- | ---------
 |1 | [What is .NET Core?](#what-is-net-core)|
-|2 | [What are the differences between .NET Core and .NET Framework? ](#what-are-the-difference-between-netcore-and-net-framework)|
+|2 | [What are the differences between .NET Core and .NET Framework?](#what-are-the-difference-between-netcore-and-net-framework)|
 
 1. ### What is .NET Core?
 
