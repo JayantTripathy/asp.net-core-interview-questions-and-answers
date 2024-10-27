@@ -15,7 +15,14 @@ Here's a set of essential ASP.NET Core interview questions across .NET Core Basi
 |6 | [What is Kestrel?](#what-is-kestrel)|
 |7 | [What is WebListener?](#what-is-weblistener)|
 |8 | [What is ASP.NET Core Module (ANCM)?](#what-is-aspnet-core-module-ancm)|
-
+|9 | [What is the startup class in ASP.NET core?](#what-is-the-startup-class-in-aspnet-core)|
+|10 | [What is a Host and what’s the importance of Host in ASP.NET Core application?](#what-is-a-host-and-what's-the-importance-of-host-in-aspnet-core-application)|
+|11 | [What does WebHost.CreateDefaultBuilder() do?](#what-does-webhost-createdefaultbuilder-do)|
+|12 | [What is the role of Startup class?](#what-is-the-role-of-startup-class)|
+|13 | [What is the role of ConfigureServices and Configure method?](#what-is-the-role-of-configureServices-and-configure-method)|
+|14 | [Where to keep configuration information in ASP.NET Core.](#where-to-keep-configuration-information-in-aspnet-core)|
+|15 | [What is the role of IHostingEnvironment interface in ASP.NET Core?](#what-is-the-role-of-ihostingenvironment-interface-in-aspnet-core)|
+|16 | [What is middleware?](#what-is-middleware)|
 
 
 
@@ -64,7 +71,7 @@ Deploy your code to cloud or on-premises.
 
   **[⬆ Back to Top](#table-of-contents)**
 
-  4. ### What are the features provided by ASP.NET Core?
+4. ### What are the features provided by ASP.NET Core?
 
 Following are the core features that are provided by the ASP.NET Core
 
@@ -83,7 +90,7 @@ Following are the core features that are provided by the ASP.NET Core
 
   **[⬆ Back to Top](#table-of-contents)**
 
-  5. ### Describe the Servers in ASP.NET Core
+5. ### Describe the Servers in ASP.NET Core
 
 Server is required to run any application. ASP.NET Core provides an in-process HTTP server implementation to run the app. This server implementation listen for HTTP requests and surface them to the application as a set of request features composed into an HttpContext.
 ASP.NET Core use the Kestrel web server by default. ASP.NET Core comes with:
@@ -94,7 +101,7 @@ HTTP.sys server that’s a Windows-only HTTP server and it’s based on the HTTP
 
   **[⬆ Back to Top](#table-of-contents)**
 
- 6. ### What is Kestrel?
+6. ### What is Kestrel?
 
 Kestrel is an event-driven, I/O-based, open-source, cross-platform, and asynchronous server which hosts .NET applications. It is provided as a default server for .NET Core therefore, it is compatible with all the platforms and their versions which .NET Core supports.
 
@@ -128,7 +135,136 @@ ASP.NET Core Module (ANCM) lets you run ASP.NET Core applications behind IIS and
 ANCM starts the process for the ASP.NET Core application when the first request comes in and restarts it when it crashes. In short, it sits in IIS and routes the request for ASP.NET Core application to Kestral.
 
  **[⬆ Back to Top](#table-of-contents)**
+
+9. ### What is the startup class in ASP.NET core?
+
+The startup class is the entry point of the ASP.NET Core application. Every .NET Core application must have this class. This class contains the application configuration-related items. It is not necessary that the class name must be “Startup”, it can be anything, we can configure the startup class in the Program class.
+
+```C#
+public class Program
+ {
+ public static void Main(string[] args)
+ {
+ CreateWebHostBuilder(args).Build().Run();
+ }
+ 
+ public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+ WebHost.CreateDefaultBuilder(args)
+ .UseStartup<TestClass>();
+ }
+```
+
+ **[⬆ Back to Top](#table-of-contents)**
   
+10. ### What is a Host and what’s the importance of Host in ASP.NET Core application?
+
+ASP.NET Core apps require a host in which to execute. The host is responsible for application startup and lifetime management. Other responsibility of host’s includes ensuring the application’s services and the server is available and properly configured. The host is responsible for starting the app and its management, whereas the server is responsible for accepting HTTP requests. 
+
+The host is configured to use a particular server; the server is unaware of its host. The host is typically created using an instance of a ```WebHostBuilder```, which builds and returns a ```WebHost``` instance. The WebHost references the server that will handle requests.
+
+ **[⬆ Back to Top](#table-of-contents)**
+
+11. ### What does WebHost.CreateDefaultBuilder() do?
+
+```WebHost.CreateDefaultBuilder()``` configure the app to use Kestrel as web server. It Specify to use the current project directory as root directory for the application. Set up the configuration sub-system to read setting from appsettings.json and appsettings.{env}.json to environment specific configuration.
+
+Configure logging to read from the Logging section of the appsettings.json file and log to the Console and Debug window. It can configure integration with IIS
+
+  **[⬆ Back to Top](#table-of-contents)**
+
+12. ### What is the role of Startup class?
+
+Startup class is responsible for configuration related things as below.
+
+- It configures the services which are required by the app.
+- It defines the app’s request handling pipeline as a series of middleware components.
+- Startup class is specified inside the CreateHostBuilder method when the host is created.
+- Multiple Startup classes can also be defined for different environments, At run time appropriate startup classes are used.
+
+```c#
+// Startup class example
+public class Startup 
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddRazorPages();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Error");
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        // other middleware components
+    }
+}
+```
+
+  **[⬆ Back to Top](#table-of-contents)**
 
 
+13. ### What is the role of ConfigureServices and Configure method?
 
+ConfigureServices method is optional and defined inside startup class as mentioned in above code. It gets called by the host before the ‘Configure’ method to configure the app’s services. The Configure method is used to specify how the ASP.NET application will respond to HTTP requests. The request pipeline is configured by adding middleware components to an ```IApplicationBuilder``` instance that is provided by dependency injection. There are some built-in middlewares for error handling, authentication, routing, session and diagnostic purpose. Highlighted lines in below code, are built-in Middleware with ASP.NET Core 1.0.
+
+You can configure the services and middleware components without the Startup class and it’s methods, by defining this configuration inside the Program class in ```CreateHostBuilder``` method.
+
+ **[⬆ Back to Top](#table-of-contents)**
+
+14. ### Where to keep configuration information in ASP.NET Core.
+
+In ASP.NET Core ```web.config``` is not available. So here we have to store configuration information in ```appsetting.json``` file, which is a plain text file, it keeps information as key-value pair in JSON format.
+
+```json
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "Data": {
+    "ConnectionString": "Data Source=KIITs\\SQLEXPRESS;Initial Catalog=testdb;Integrated Security=True"
+  }
+}
+```
+
+ **[⬆ Back to Top](#table-of-contents)**
+
+15. ### What is the role of IHostingEnvironment interface in ASP.NET Core?
+
+ASP.NET Core offers an interface named ```IHostingEnvironment```, allows you to programmatically retrieve the current environment so you can have an environment-specific behavior. By default, ASP.NET Core has 3 environments Development, Staging, and Production. Previously, the developers had to build the application differently for each environment (Staging, UAT, Production) due to dependency on config file sections and the preprocessor directive applicable at compile time. ASP.NET Core takes a different approach and uses ```IHostingEnvironment``` to retrieve the current environment. 
+
+ **[⬆ Back to Top](#table-of-contents)**
+
+16. ### What is middleware?
+
+It is software that is injected into the application pipeline to handle requests and responses. They are just like chained to each other and form as a pipeline. The incoming requests are passed through this pipeline where all middleware is configured, and middleware can perform some action on the request before passing it to the next middleware. Same as for the responses, they are also passing through the middleware but in reverse order.
+
+![ScreenShot](images/middlewareOrder.png)
+
+The Request handling pipeline is a sequence of middleware components where each component performs the operation on request and either call the next middleware component or terminates the request. When a middleware component terminates the request, it’s called Terminal Middleware as It prevents next middleware from processing the request. You can add a middleware component to the pipeline by calling .Use… extension method as below.
+
+```c#
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+```
+
+ **[⬆ Back to Top](#table-of-contents)**
+ 
